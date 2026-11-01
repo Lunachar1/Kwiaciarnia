@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kwiaciarnia Pachnący Kącik • Poznań Winogrady • Bukiety na zamówienie</title>
+<meta name="description" content="Rzemieślnicza kwiaciarnia na os. Przyjaźni 132a/2a w Poznaniu. Autorskie bukiety, florystyka ślubna, rośliny doniczkowe. Ocena 4.9/5 w Google. Zadzwoń i odbierz bukiet bez kolejki.">
+<meta name="theme-color" content="#16261F">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#FAF7F2',
+        secondary: '#F2ECE1',
+        dark: '#16261F',
+        sage: '#2D4F3E',
+        rose: '#D48373',
+        gold: '#C5A059',
+        ink: '#1A211E',
+        muted: '#5C6661'
+      },
+      fontFamily: {
+        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif']
+      },
+      keyframes: {
+        floaty: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-12px)' } },
+        fall: { '0%': { transform: 'translateY(-10vh) rotate(0deg)', opacity: '0' }, '10%': { opacity: '1' }, '100%': { transform: 'translateY(110vh) rotate(540deg)', opacity: '0.9' } }
+      },
+      animation: { floaty: 'floaty 6s ease-in-out infinite', floaty2: 'floaty 7.5s ease-in-out -2s infinite' }
+    }
+  }
+}
+</script>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<style>
+  body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; background:#FAF7F2; color:#1A211E; -webkit-font-smoothing:antialiased; }
+  .noise { position:fixed; inset:0; pointer-events:none; z-index:90; opacity:.03;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+  em.accent { font-style:italic; color:#D48373; }
+  input[type=range] { -webkit-appearance:none; appearance:none; height:8px; border-radius:999px; background:linear-gradient(90deg,#2D4F3E var(--fill,30%),#E3DACB var(--fill,30%)); outline:none; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:28px; height:28px; border-radius:50%; background:#FAF7F2; border:3px solid #2D4F3E; box-shadow:0 4px 12px rgba(0,0,0,.2); cursor:grab; }
+  input[type=range]::-moz-range-thumb { width:22px; height:22px; border-radius:50%; background:#FAF7F2; border:3px solid #2D4F3E; box-shadow:0 4px 12px rgba(0,0,0,.2); cursor:grab; }
+  .gcard { transition:opacity .35s ease, transform .35s ease; }
+  .gcard.is-out { opacity:0; transform:scale(.94); }
+  .tile { transition:all .25s ease; }
+  .tile[aria-pressed="true"] { background:#2D4F3E; color:#fff; border-color:#2D4F3E; box-shadow:0 10px 24px -10px rgba(45,79,62,.6); }
+  .tile[aria-pressed="true"] .tile-sub { color:rgba(255,255,255,.75); }
+  .faq-body { max-height:0; overflow:hidden; transition:max-height .4s ease; }
+  .petal { position:fixed; top:0; z-index:300; pointer-events:none; animation:fall linear forwards; }
+  @keyframes fall { 0%{transform:translateY(-10vh) rotate(0);opacity:0} 10%{opacity:1} 100%{transform:translateY(110vh) rotate(540deg);opacity:.9} }
+  @keyframes pulseRing { 0%{box-shadow:0 0 0 0 rgba(239,68,68,.6)} 100%{box-shadow:0 0 0 18px rgba(239,68,68,0)} }
+  .red-pulse { animation:pulseRing 1.4s infinite; }
+  #ba-overlay { clip-path:circle(150% at 50% 60%); transition:clip-path 1.3s cubic-bezier(.77,0,.18,1); }
+  #ba-overlay.reveal-out { clip-path:circle(0% at 50% 60%); }
+  .glass { background:rgba(255,255,255,.72); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1px solid rgba(255,255,255,.7); }
+  @media (prefers-reduced-motion: reduce) { * { animation:none !important; transition-duration:.01ms !important; } }
+</style>
+</head>
+<body class="bg-primary text-ink pb-16 md:pb-0">
+<div class="noise" aria-hidden="true"></div>
+
+<!-- ===================== SEKCJA 0: TRYB PRZED / PO ===================== -->
+
+<div id="ba-overlay" class="fixed inset-0 z-[200] bg-[#e8eaed] hidden overflow-y-auto" role="dialog" aria-modal="true" aria-label="Wizytówka Google Maps przed zmianą">
+  <div class="min-h-full flex flex-col items-center justify-center p-4 py-10">
+    <p class="text-xs uppercase tracking-[0.25em] text-gray-500 mb-4 font-semibold">PRZED • Tak wyglądała firma w Google</p>
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden font-sans">
+      <div class="h-36 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center text-gray-400 text-sm">
+        <div class="text-center"><div class="text-4xl mb-1">📷</div>Brak zdjęć</div>
+      </div>
+      <div class="p-5">
+        <h3 class="text-2xl text-[#202124] font-medium">Kwiaciarnia Pachnący Kącik</h3>
+        <div class="flex items-center gap-2 mt-1 text-sm">
+          <span class="text-[#202124]">4,9</span>
+          <span class="text-[#fbbc04] tracking-tight">★★★★★</span>
+          <span class="text-[#70757a]">(131) • Kwiaciarnia</span>
+        </div>
+        <div class="flex gap-2 mt-4 text-xs text-[#1a73e8] font-medium">
+          <span class="flex-1 text-center border border-gray-300 rounded-full py-2">Trasa</span>
+          <span class="flex-1 text-center border border-gray-300 rounded-full py-2">Zapisz</span>
+          <span class="flex-1 text-center border border-gray-300 rounded-full py-2">Zadzwoń</span>
+        </div>
+        <ul class="mt-5 space-y-3 text-sm text-[#3c4043]">
+          <li class="flex gap-3">📍 <span>os. Przyjaźni 132a/2a, 61-686 Poznań</span></li>
+          <li class="flex gap-3">🕒 <span><span class="text-green-700 font-medium">Otwarte</span> • Zamyka się o 18:00</span></li>
+          <li class="flex gap-3">📞 <span>665 019 963</span></li>
+          <li>
+            <div class="border-4 border-red-500 rounded-xl p-3 red-pulse flex gap-3 items-center bg-red-50">
+              <span>🌐</span>
+              <span class="text-[#1a73e8] font-medium">Brak strony internetowej – Dodaj witrynę</span>
+            </div>
+          </li>
+        </ul>
+        <p class="mt-4 text-xs text-red-600 font-semibold">⚠ Klienci szukają w Google. Bez strony nie mogą jej znaleźć i sprawdzić oferty.</p>
+      </div>
+    </div>
+    <button id="ba-go" type="button" class="mt-8 rounded-full bg-[#2D4F3E] text-white font-semibold px-8 py-4 text-lg shadow-xl hover:-translate-y-1 transition-all duration-300">Odmień ten biznes ✨</button>
+    <button id="ba-close" type="button" class="mt-3 text-xs text-gray-500 underline">Zamknij podgląd</button>
+  </div>
+</div>
+
+<!-- ===================== SEKCJA 1: TOP BAR + NAVBAR ===================== -->
+<div class="bg-[#16261F] text-white text-xs sm:text-[13px]">
+  <div class="max-w-7xl mx-auto px-4 py-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+    <div class="flex items-start sm:items-center gap-2" aria-live="polite">
+      <span class="relative flex h-2.5 w-2.5 shrink-0 mt-1 sm:mt-0">
+        <span id="live-ping" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+        <span id="live-dot" class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
+      </span>
+      <span id="live-text">Sprawdzam godziny otwarcia…</span>
+    </div>
+    <div class="flex items-center gap-4 text-white/80">
+      <span class="hidden md:inline"><i data-lucide="leaf" class="w-4 h-4 inline-block align-[-3px] mr-2 shrink-0"></i>Świeża dostawa kwiatów: codziennie rano</span>
+      <a href="tel:+48665019963" class="font-semibold text-white hover:text-rose transition-colors"><i data-lucide="phone" class="w-4 h-4 inline-block align-[-3px] mr-2 shrink-0"></i>665 019 963</a>
+    </div>
+  </div>
+</div>
+
+<header id="navbar" class="sticky top-0 z-[100] backdrop-blur-md bg-[#FAF7F2]/85 border-b border-black/5 transition-shadow">
+  <div class="max-w-7xl mx-auto px-4 h-16 md:h-20 flex items-center justify-between">
+    <a href="#top" class="flex items-center gap-2.5 group" aria-label="Pachnący Kącik – strona główna">
+      <span class="w-10 h-10 rounded-full bg-sage text-white flex items-center justify-center group-hover:rotate-12 transition-transform"><i data-lucide="flower-2" class="w-5 h-5"></i></span>
+      <span class="leading-none">
+        <span class="block font-serif text-2xl font-semibold">Pachnący Kącik</span>
+        <span class="block text-[10px] uppercase tracking-[0.3em] text-muted mt-0.5">• Poznań •</span>
+      </span>
+    </a>
+    <nav class="hidden lg:flex items-center gap-7 text-sm font-medium" aria-label="Główna nawigacja">
+      <a class="nav-link hover:text-rose transition-colors" href="#o-nas">O kwiaciarni</a>
+      <a class="nav-link hover:text-rose transition-colors" href="#kolekcja">Kolekcja</a>
+      <a class="nav-link hover:text-rose transition-colors" href="#kolekcja" data-filter-jump="slubna">Śluby</a>
+      <a class="nav-link hover:text-rose transition-colors" href="#opinie">Opinie (4.9<span class="text-gold">★</span>)</a>
+      <a class="nav-link hover:text-rose transition-colors" href="#kontakt">Kontakt</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <a href="tel:+48665019963" class="hidden sm:inline-flex rounded-full bg-sage text-white text-sm font-semibold px-5 py-2.5 hover:-translate-y-1 hover:shadow-lg transition-all duration-300"><i data-lucide="phone" class="w-4 h-4 inline-block align-[-3px] mr-2 shrink-0"></i>Zadzwoń: 665 019 963</a>
+      <button id="menu-open" type="button" class="lg:hidden w-11 h-11 rounded-full border border-black/10 flex items-center justify-center" aria-label="Otwórz menu" aria-expanded="false" aria-controls="mobile-menu"><i data-lucide="menu" class="w-5 h-5"></i></button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile menu -->
+<div id="menu-backdrop" class="fixed inset-0 z-[140] bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+<aside id="mobile-menu" class="fixed top-0 right-0 bottom-0 z-[150] w-[82%] max-w-sm bg-primary translate-x-full transition-transform duration-500 ease-out p-6 flex flex-col" aria-label="Menu mobilne">
+  <div class="flex items-center justify-between mb-8">
+    <span class="font-serif text-2xl font-semibold">Pachnący Kącik</span>
+    <button id="menu-close" type="button" class="w-11 h-11 rounded-full border border-black/10 flex items-center justify-center" aria-label="Zamknij menu"><i data-lucide="x" class="w-5 h-5"></i></button>
+  </div>
+  <nav class="flex flex-col gap-1 text-xl font-serif">
+    <a class="m-link py-3 border-b border-black/5" href="#o-nas">O kwiaciarni</a>
+    <a class="m-link py-3 border-b border-black/5" href="#kolekcja">Kolekcja</a>
+    <a class="m-link py-3 border-b border-black/5" href="#kolekcja" data-filter-jump="slubna">Śluby</a>
+    <a class="m-link py-3 border-b border-black/5" href="#opinie">Opinie (4.9★)</a>
+    <a class="m-link py-3 border-b border-black/5" href="#kontakt">Kontakt</a>
+  </nav>
+  <a href="tel:+48665019963" class="mt-8 text-center rounded-full bg-sage text-white font-semibold py-4"><i data-lucide="phone" class="w-4 h-4 inline-block align-[-3px] mr-2 shrink-0"></i>Zadzwoń: 665 019 963</a>
+  <a href="#kolekcja" class="m-link mt-3 text-center rounded-full border border-sage text-sage font-semibold py-4">Zobacz kolekcję</a>
+  <p class="mt-auto text-xs text-muted">os. Przyjaźni 132a/2a, 61-686 Poznań</p>
+</aside>
+
+<main id="top">
+<!-- ===================== SEKCJA 2: HERO ===================== -->
+<section class="relative overflow-hidden">
+  <div class="absolute -top-40 -left-40 w-[480px] h-[480px] rounded-full bg-rose/10 blur-3xl" aria-hidden="true"></div>
+  <div class="absolute bottom-0 right-0 w-[420px] h-[420px] rounded-full bg-sage/10 blur-3xl" aria-hidden="true"></div>
+  <div class="relative max-w-7xl mx-auto px-4 pt-10 pb-20 lg:pt-16 lg:pb-28 grid lg:grid-cols-5 gap-12 items-center">
+    <div class="lg:col-span-3 reveal opacity-0 translate-y-8 transition-all duration-700">
+      <div class="inline-flex items-center gap-2 rounded-full bg-white/80 border border-gold/30 px-4 py-2 text-sm shadow-sm">
+        <span class="text-gold tracking-wider">★★★★★</span>
+        <span class="font-medium">4.9/5 w Google <span class="text-muted font-normal">(131 opinii z Winograd i okolic)</span></span>
+      </div>
+      <h1 class="font-serif text-5xl lg:text-7xl leading-tight font-semibold mt-6">Najpiękniejsze emocje zaklęte w <em class="accent">świeżych</em> kwiatach.</h1>
+      <p class="mt-6 text-lg text-muted max-w-2xl leading-relaxed">Rzemieślnicza kwiaciarnia w sercu Osiedla Przyjaźni. Tworzymy autorskie bukiety, które zachwycają zapachem i stoją w wazonie nawet do 14 dni. Zadzwoń, a gotową kompozycję odbierzesz na wybraną godzinę – bez czekania w kolejce.</p>
+      <div class="mt-8 flex flex-col sm:flex-row gap-3">
+        <a href="tel:+48665019963" class="inline-flex items-center justify-center rounded-full bg-[#2D4F3E] text-white font-semibold px-7 py-4 hover:-translate-y-1 transition-all duration-300 shadow-lg hover:shadow-xl"><i data-lucide="phone" class="w-4 h-4 inline-block align-[-3px] mr-2 shrink-0"></i>Zadzwoń: 665 019 963</a>
+        <a href="#kolekcja" class="inline-flex items-center justify-center rounded-full border-2 border-[#2D4F3E] text-[#2D4F3E] font-semibold px-7 py-4 hover:-translate-y-1 hover:bg-sage hover:text-white transition-all duration-300"><i data-lucide="flower-2" class="w-4 h-4 inline-block align-[-3px] mr-2 shrink-0"></i>Zobacz nasze bukiety</a>
+      </div>
+      <ul class="mt-10 grid sm:grid-cols-3 gap-4 text-sm">
+        <li class="flex items-center gap-3"><span class="w-10 h-10 shrink-0 rounded-full bg-secondary flex items-center justify-center text-sage"><i data-lucide="car" class="w-5 h-5"></i></span><span class="font-medium leading-snug">Bezpłatny parking przy lokalu</span></li>
+        <li class="flex items-center gap-3"><span class="w-10 h-10 shrink-0 rounded-full bg-secondary flex items-center justify-center text-sage"><i data-lucide="credit-card" class="w-5 h-5"></i></span><span class="font-medium leading-snug">Płatność kartą i BLIK</span></li>
+        <li class="flex items-center gap-3"><span class="w-10 h-10 shrink-0 rounded-full bg-secondary flex items-center justify-center text-sage"><i data-lucide="droplets" class="w-5 h-5"></i></span><span class="font-medium leading-snug">Darmowa odżywka do każdego bukietu</span></li>
+      </ul>
+    </div>
+
+    <div class="lg:col-span-2 relative reveal opacity-0 translate-y-8 transition-all duration-700 delay-200">
+      <div class="relative mx-auto max-w-md">
+        <div class="rounded-t-full overflow-hidden aspect-[3/4] shadow-2xl ring-8 ring-white/60">
+          <img src="https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=1200&q=85" alt="Świeży bukiet kwiatów z Kwiaciarni Pachnący Kącik" class="w-full h-full object-cover hover:scale-105 transition-transform duration-[1500ms]" fetchpriority="high">
+        </div>
+        <div class="glass absolute -left-4 sm:-left-12 bottom-8 rounded-3xl p-3 pr-4 shadow-xl flex gap-3 items-center max-w-[280px] animate-floaty">
+          <img src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=600&q=80" alt="Bukiet dnia" class="w-16 h-16 rounded-2xl object-cover shrink-0" loading="lazy">
+          <div class="min-w-0">
+            <p class="text-[11px] leading-snug"><span class="font-bold"><i data-lucide="flower" class="w-4 h-4 inline-block align-[-3px] mr-2 shrink-0"></i>Bukiet Dnia:</span> Piwonia Sarah Bernhardt &amp; Eukaliptus – <strong>140 zł</strong></p>
+            <a href="tel:+48665019963" class="mt-1.5 inline-block rounded-full bg-sage text-white text-xs font-semibold px-4 py-1.5 hover:bg-rose transition-colors">Zadzwoń</a>
+          </div>
+        </div>
+        <div class="glass absolute -right-2 sm:-right-8 top-10 rounded-2xl px-4 py-3 shadow-xl max-w-[200px] animate-floaty2">
+          <p class="text-xs leading-snug"><span class="font-bold"><i data-lucide="zap" class="w-4 h-4 inline-block align-[-3px] mr-2 shrink-0"></i>Szybki odbiór:</span> Gotowe nawet w 30 minut od telefonu!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== O NAS (kotwica) + SEKCJA 4: BENTO ===================== -->
+<section id="o-nas" class="scroll-mt-24 bg-secondary py-20 lg:py-28">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-3xl reveal opacity-0 translate-y-8 transition-all duration-700">
+      <p class="text-xs uppercase tracking-[0.3em] text-rose font-semibold">O kwiaciarni</p>
+      <h2 class="font-serif text-4xl lg:text-6xl mt-3 leading-tight font-semibold">Dlaczego mieszkańcy Winograd kochają <em class="accent">Pachnący Kącik</em>?</h2>
+    </div>
+    <div class="mt-12 grid md:grid-cols-6 gap-5 auto-rows-[minmax(240px,auto)]">
+      <article class="reveal opacity-0 translate-y-8 transition-all duration-700 md:col-span-3 lg:col-span-4 rounded-[2rem] bg-dark text-white p-8 lg:p-10 relative overflow-hidden group">
+        <div class="absolute -right-10 -bottom-10 w-56 h-56 rounded-full bg-rose/20 blur-2xl group-hover:scale-125 transition-transform duration-700"></div>
+        <span class="inline-block text-xs uppercase tracking-widest text-gold font-semibold">01 • Gwarancja</span>
+        <h3 class="font-serif text-3xl lg:text-5xl mt-3 font-semibold">Gwarancja <em class="text-rose">7 dni</em> świeżości</h3>
+        <p class="mt-4 text-white/75 max-w-xl leading-relaxed">Kwiaty selekcjonujemy o świcie, prosto z dostawy – tylko pąki w idealnym stadium rozwoju, z mocnymi łodygami. Każdy kwiat przycinamy pod kątem i trafia do chłodnej wody. Dlatego nasze bukiety nie więdną po dwóch dniach jak te z marketu. Jeśli bukiet nie wytrzyma 7 dni przy zachowaniu zasad pielęgnacji – po prostu nam o tym powiedz.</p>
+        <div class="mt-6 flex gap-6 text-sm">
+          <div><p class="font-serif text-4xl text-gold">7–14</p><p class="text-white/60">dni w wazonie</p></div>
+          <div><p class="font-serif text-4xl text-gold">6:00</p><p class="text-white/60">selekcja kwiatów</p></div>
+        </div>
+      </article>
+      <article class="reveal opacity-0 translate-y-8 transition-all duration-700 delay-100 md:col-span-3 lg:col-span-2 rounded-[2rem] bg-white p-8 border border-black/5 hover:-translate-y-1 hover:shadow-xl">
+        <span class="w-12 h-12 rounded-full bg-secondary text-sage flex items-center justify-center"><i data-lucide="hand-heart" class="w-6 h-6"></i></span>
+        <h3 class="font-serif text-3xl mt-3 font-semibold">Rękodzieło kobiety z pasją</h3>
+        <p class="mt-3 text-muted leading-relaxed text-[15px]">Za ladą stoi florystka, która zaczęła od bukietu dla mamy, a skończyła z własną pracownią. Opowiedz jej o osobie, dla której kupujesz kwiaty – a ona dobierze barwy, zapach i charakter tak, jakby znała ją od lat.</p>
+      </article>
+      <article class="reveal opacity-0 translate-y-8 transition-all duration-700 md:col-span-3 lg:col-span-2 rounded-[2rem] bg-rose/15 p-8 hover:-translate-y-1 hover:shadow-xl transition-shadow">
+        <span class="w-12 h-12 rounded-full bg-white/70 text-rose flex items-center justify-center"><i data-lucide="gift" class="w-6 h-6"></i></span>
+        <h3 class="font-serif text-3xl mt-3 font-semibold">Pogotowie Prezentowe</h3>
+        <p class="mt-3 text-ink/70 leading-relaxed text-[15px]">Masz już prezent, ale nie umiesz go zapakować? Przynieś go do nas – zapakujemy w papier, dodamy żywe kwiaty, suszki i jedwabną wstążkę. Gotowe w kilkanaście minut.</p>
+      </article>
+      <article class="reveal opacity-0 translate-y-8 transition-all duration-700 delay-100 md:col-span-3 lg:col-span-4 rounded-[2rem] bg-sage text-white overflow-hidden grid sm:grid-cols-2 group">
+        <div class="p-8 lg:p-10">
+          <span class="inline-block text-xs uppercase tracking-widest text-gold font-semibold">Rośliny</span>
+          <h3 class="font-serif text-3xl lg:text-4xl mt-3 font-semibold">Zielona dżungla w domu</h3>
+          <p class="mt-3 text-white/80 leading-relaxed text-[15px]">Unikatowe rośliny doniczkowe: efektowne Monstery, kolorowe Kalatee i wytrzymałe Sukulenty. Do tego ceramiczne osłonki w stonowanych barwach – idealne na parapet, do biura lub jako prezent na parapetówkę.</p>
+          <div class="mt-5 flex flex-wrap gap-2 text-xs">
+            <span class="px-3 py-1 rounded-full bg-white/15">Monstera</span><span class="px-3 py-1 rounded-full bg-white/15">Kalatea</span><span class="px-3 py-1 rounded-full bg-white/15">Sukulenty</span><span class="px-3 py-1 rounded-full bg-white/15">Osłonki ceramiczne</span>
+          </div>
+        </div>
+        <div class="min-h-[220px] overflow-hidden"><img src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=800&q=80" alt="Rośliny doniczkowe i Monstera" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[1200ms]" loading="lazy"></div>
+      </article>
+    </div>
+    <div class="mt-14 grid lg:grid-cols-2 gap-10 items-center reveal opacity-0 translate-y-8 transition-all duration-700">
+      <div class="rounded-[2rem] overflow-hidden aspect-[5/4] shadow-xl"><img src="https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=1000&q=80" alt="Wnętrze kwiaciarni Pachnący Kącik" class="w-full h-full object-cover" loading="lazy"></div>
+      <div>
+        <p class="text-xs uppercase tracking-[0.3em] text-rose font-semibold">Wejdź do środka</p>
+        <h3 class="font-serif text-4xl lg:text-5xl mt-3 font-semibold leading-tight">Już od progu <em class="accent">pachnie</em> szczęściem</h3>
+        <p class="mt-4 text-muted leading-relaxed">Mały, ciepły lokal na os. Przyjaźni, w którym zawsze znajdziesz świeże sezonowe kwiaty, rośliny i uśmiech. Płacisz kartą, BLIKIEM lub telefonem (NFC), a samochód zostawiasz na darmowym parkingu tuż przy wejściu.</p>
+        <ul class="mt-6 space-y-3 text-sm font-medium">
+          <li class="flex gap-3 items-start"><i data-lucide="check" class="w-5 h-5 text-sage shrink-0"></i> Odbiór osobisty na konkretną godzinę – bez kolejki</li>
+          <li class="flex gap-3 items-start"><i data-lucide="check" class="w-5 h-5 text-sage shrink-0"></i> Doradztwo bez naciągania – dopasowane do Twojego budżetu</li>
+          <li class="flex gap-3 items-start"><i data-lucide="check" class="w-5 h-5 text-sage shrink-0"></i> Darmowa odżywka przedłużająca życie kwiatów</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SEKCJA 5: KATALOG ===================== -->
+<section id="kolekcja" class="scroll-mt-20 bg-secondary py-20 lg:py-28">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 reveal opacity-0 translate-y-8 transition-all duration-700">
+      <div>
+        <p class="text-xs uppercase tracking-[0.3em] text-rose font-semibold">Lookbook</p>
+        <h2 class="font-serif text-4xl lg:text-6xl mt-3 font-semibold leading-tight">Nasze ostatnie <em class="accent">dzieła</em></h2>
+      </div>
+      <div id="filters" class="flex flex-wrap gap-2" role="tablist" aria-label="Filtry kolekcji"></div>
+    </div>
+    <div id="gallery" class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </div>
+</section>
+
+<!-- ===================== SEKCJA 6: FAQ + PIELĘGNACJA ===================== -->
+<section id="faq" class="scroll-mt-20 py-20 lg:py-28">
+  <div class="max-w-3xl mx-auto px-4">
+    <div class="reveal opacity-0 translate-y-8 transition-all duration-700">
+      <p class="text-xs uppercase tracking-[0.3em] text-rose font-semibold">FAQ</p>
+      <h2 class="font-serif text-4xl lg:text-5xl mt-3 font-semibold leading-tight">Najczęstsze <em class="accent">pytania</em></h2>
+      <div id="faq-list" class="mt-8 divide-y divide-black/10 border-y border-black/10"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SEKCJA 7: OPINIE ===================== -->
+<section id="opinie" class="scroll-mt-20 bg-dark text-white py-20 lg:py-28 relative overflow-hidden">
+  <div class="absolute top-0 right-0 w-96 h-96 rounded-full bg-gold/10 blur-3xl" aria-hidden="true"></div>
+  <div class="relative max-w-7xl mx-auto px-4">
+    <div class="text-center max-w-3xl mx-auto reveal opacity-0 translate-y-8 transition-all duration-700">
+      <p class="text-xs uppercase tracking-[0.3em] text-gold font-semibold">Ściana Miłości</p>
+      <h2 class="font-serif text-4xl lg:text-6xl mt-3 font-semibold leading-tight">Poznaniacy ocenili nas na <span class="text-gold italic whitespace-nowrap">4.9 / 5.0</span></h2>
+      <p class="mt-4 text-white/70"><span class="text-gold tracking-widest text-xl">★★★★★</span><br>na podstawie <strong class="text-white">131 zweryfikowanych opinii</strong> w Google Maps</p>
+    </div>
+    <div class="mt-14 grid md:grid-cols-3 gap-6" id="reviews"></div>
+    <div class="mt-10 text-center">
+      <a href="https://www.google.com/maps/search/?api=1&query=Kwiaciarnia+Pachnący+Kącik+os.+Przyjaźni+132a+Poznań" target="_blank" rel="noopener" class="inline-flex rounded-full border border-white/30 px-6 py-3 text-sm font-semibold hover:bg-white hover:text-dark hover:-translate-y-1 transition-all duration-300">Zobacz wszystkie opinie w Google →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SEKCJA 8: KONTAKT ===================== -->
+<section id="kontakt" class="scroll-mt-20 py-20 lg:py-28">
+  <div class="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-12 items-stretch">
+    <div class="reveal opacity-0 translate-y-8 transition-all duration-700">
+      <p class="text-xs uppercase tracking-[0.3em] text-rose font-semibold">Kontakt</p>
+      <h2 class="font-serif text-4xl lg:text-5xl mt-3 font-semibold leading-tight">Wpadnij na <em class="accent">Winogrady</em></h2>
+      <address class="not-italic mt-6 space-y-2 text-lg">
+        <p class="font-semibold">Kwiaciarnia Pachnący Kącik</p>
+        <p class="text-muted">os. Przyjaźni 132a/2a<br>61-686 Poznań (Winogrady)</p>
+        <p><a href="tel:+48665019963" class="font-semibold text-sage hover:text-rose transition-colors">665 019 963</a></p>
+      </address>
+      <div class="mt-8 rounded-3xl bg-white border border-black/5 p-6 shadow-sm">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-serif text-2xl font-semibold">Godziny otwarcia</h3>
+          <span id="hours-badge" class="text-xs font-bold px-3 py-1 rounded-full bg-secondary text-muted">…</span>
+        </div>
+        <table class="w-full text-sm" id="hours-table">
+          <tbody>
+            <tr data-dow="1"><td class="py-2.5 px-3 rounded-l-xl">Poniedziałek</td><td class="py-2.5 px-3 text-right rounded-r-xl">10:00 – 18:00</td></tr>
+            <tr data-dow="2"><td class="py-2.5 px-3 rounded-l-xl">Wtorek</td><td class="py-2.5 px-3 text-right rounded-r-xl">10:00 – 18:00</td></tr>
+            <tr data-dow="3"><td class="py-2.5 px-3 rounded-l-xl">Środa</td><td class="py-2.5 px-3 text-right rounded-r-xl">10:00 – 18:00</td></tr>
+            <tr data-dow="4"><td class="py-2.5 px-3 rounded-l-xl">Czwartek</td><td class="py-2.5 px-3 text-right rounded-r-xl">10:00 – 18:00</td></tr>
+            <tr data-dow="5"><td class="py-2.5 px-3 rounded-l-xl">Piątek</td><td class="py-2.5 px-3 text-right rounded-r-xl">10:00 – 18:00</td></tr>
+            <tr data-dow="6"><td class="py-2.5 px-3 rounded-l-xl">Sobota</td><td class="py-2.5 px-3 text-right rounded-r-xl">10:00 – 17:00</td></tr>
+            <tr data-dow="0"><td class="py-2.5 px-3 rounded-l-xl">Niedziela</td><td class="py-2.5 px-3 text-right rounded-r-xl">Nieczynne</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="mt-6 space-y-3 text-sm text-muted">
+        <li class="flex gap-3"><i data-lucide="train-front" class="w-5 h-5 text-sage shrink-0"></i><span><strong class="text-ink">Komunikacja miejska:</strong> na Osiedle Przyjaźni dojedziesz tramwajem lub autobusem z centrum Poznania, a z przystanku do kwiaciarni to krótki spacer.</span></li>
+        <li class="flex gap-3"><i data-lucide="car" class="w-5 h-5 text-sage shrink-0"></i><span><strong class="text-ink">Parking:</strong> bezpłatne miejsca postojowe tuż przy lokalu.</span></li>
+      </ul>
+    </div>
+    <div class="reveal opacity-0 translate-y-8 transition-all duration-700 delay-150 flex flex-col">
+      <div class="rounded-[2rem] overflow-hidden border-8 border-white shadow-2xl flex-1 min-h-[380px] bg-secondary">
+        <iframe title="Mapa Google – Kwiaciarnia Pachnący Kącik" src="https://maps.google.com/maps?q=os.%20Przyja%C5%BAni%20132a%2C%20Pozna%C5%84&z=16&output=embed" class="w-full h-full min-h-[380px] border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
+      <a href="https://www.google.com/maps/search/?api=1&query=os.+Przyja%C5%BAni+132a+Pozna%C5%84" target="_blank" rel="noopener" class="mt-5 inline-flex items-center justify-center rounded-full bg-sage text-white font-semibold px-7 py-4 hover:-translate-y-1 hover:shadow-lg transition-all duration-300"><i data-lucide="map-pin" class="w-4 h-4 inline-block align-[-3px] mr-2 shrink-0"></i>Otwórz nawigację w Google Maps</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ===================== SEKCJA 9: STOPKA ===================== -->
+<footer class="bg-dark text-white pt-16 pb-10">
+  <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-4 gap-10">
+    <div class="md:col-span-2">
+      <p class="font-serif text-3xl font-semibold">Pachnący Kącik <span class="text-white/40 text-lg">• Poznań</span></p>
+      <p class="mt-4 text-white/65 max-w-md leading-relaxed text-sm">Rzemieślnicza kwiaciarnia na Winogradach. Bukiety okolicznościowe, florystyka ślubna, flowerboxy, rośliny doniczkowe i pakowanie prezentów. Płatność kartą, BLIK i NFC.</p>
+      <div class="mt-5 flex items-center gap-2 text-sm"><span class="text-gold">★★★★★</span> 4.9/5 • 131 opinii w Google</div>
+    </div>
+    <div>
+      <p class="text-xs uppercase tracking-widest text-gold font-semibold">Szybkie linki</p>
+      <ul class="mt-4 space-y-2 text-sm text-white/70">
+        <li><a class="hover:text-rose transition-colors" href="#o-nas">O kwiaciarni</a></li>
+        <li><a class="hover:text-rose transition-colors" href="#kolekcja">Kolekcja</a></li>
+        <li><a class="hover:text-rose transition-colors" href="#faq">FAQ i pielęgnacja</a></li>
+        <li><a class="hover:text-rose transition-colors" href="#opinie">Opinie</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="text-xs uppercase tracking-widest text-gold font-semibold">Kontakt</p>
+      <ul class="mt-4 space-y-2 text-sm text-white/70">
+        <li>os. Przyjaźni 132a/2a<br>61-686 Poznań</li>
+        <li><a class="hover:text-rose transition-colors" href="tel:+48665019963">665 019 963</a></li>
+        <li>Pon–Pt 10:00–18:00<br>Sob 10:00–17:00<br>Niedziela nieczynne</li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto px-4 mt-12 pt-6 border-t border-white/10 text-xs text-white/45 flex flex-col sm:flex-row justify-between gap-2">
+    <p>© 2026 Kwiaciarnia Pachnący Kącik. Wszelkie prawa zastrzeżone.</p>
+    <p>GPS: 52.4316° N, 16.9252° E</p>
+  </div>
+</footer>
+
+<!-- Sticky mobile bar -->
+<div class="fixed bottom-0 inset-x-0 z-[110] md:hidden bg-primary/95 backdrop-blur border-t border-black/10 p-2 grid grid-cols-2 gap-2">
+  <a href="tel:+48665019963" class="text-center rounded-full border-2 border-sage text-sage text-[13px] font-semibold py-3"><i data-lucide="phone" class="w-4 h-4 inline-block align-[-3px] mr-2 shrink-0"></i>Zadzwoń teraz</a>
+  <a href="https://www.google.com/maps/dir/?api=1&destination=os.+Przyja%C5%BAni+132a+Pozna%C5%84" target="_blank" rel="noopener" class="text-center rounded-full bg-sage text-white text-[13px] font-semibold py-3"><i data-lucide="navigation" class="w-4 h-4 inline-block align-[-3px] mr-2 shrink-0"></i>Wyznacz trasę</a>
+</div>
+
+<!-- Lightbox -->
+<div id="lightbox" class="fixed inset-0 z-[260] hidden items-center justify-center bg-black/90 p-4" role="dialog" aria-modal="true" aria-label="Podgląd zdjęcia">
+  <button id="lb-close" type="button" class="absolute top-4 right-4 w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center" aria-label="Zamknij"><i data-lucide="x" class="w-6 h-6"></i></button>
+  <button id="lb-prev" type="button" class="absolute left-3 md:left-8 w-12 h-12 rounded-full bg-white/10 text-white text-2xl" aria-label="Poprzednie">‹</button>
+  <figure class="max-w-4xl w-full text-center">
+    <img id="lb-img" src="" alt="" class="max-h-[78vh] mx-auto rounded-2xl object-contain">
+    <figcaption id="lb-cap" class="text-white/80 mt-4 font-serif text-2xl"></figcaption>
+  </figure>
+  <button id="lb-next" type="button" class="absolute right-3 md:right-8 w-12 h-12 rounded-full bg-white/10 text-white text-2xl" aria-label="Następne">›</button>
+</div>
+
+<script>
+(() => {
+'use strict';
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const PHONE_TEL = '+48665019963';
+const DAYS_PL = ['niedziela','poniedziałek','wtorek','środa','czwartek','piątek','sobota'];
+const MONTHS_PL = ['stycznia','lutego','marca','kwietnia','maja','czerwca','lipca','sierpnia','września','października','listopada','grudnia'];
+const icons = () => { try { window.lucide && lucide.createIcons(); } catch (e) {} };
+
+/* ---------- Czas w Europe/Warsaw i godziny otwarcia ---------- */
+const HOURS = { 0: null, 1: [600, 1080], 2: [600, 1080], 3: [600, 1080], 4: [600, 1080], 5: [600, 1080], 6: [600, 1020] };
+const WD = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+function warsawNow() {
+  const parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Warsaw', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', weekday: 'short', hourCycle: 'h23' }).formatToParts(new Date());
+  const o = {}; parts.forEach(p => { o[p.type] = p.value; });
+  const h = parseInt(o.hour, 10) % 24, m = parseInt(o.minute, 10);
+  return { dow: WD[o.weekday], minutes: h * 60 + m, ymd: `${o.year}-${o.month}-${o.day}` };
+}
+const fmt = mins => `${String(Math.floor(mins / 60)).padStart(2, '0')}:${String(mins % 60).padStart(2, '0')}`;
+const dowOfYmd = ymd => { const [y, m, d] = ymd.split('-').map(Number); return new Date(y, m - 1, d).getDay(); };
+const addDays = (ymd, n) => { const [y, m, d] = ymd.split('-').map(Number); const dt = new Date(y, m - 1, d + n); return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`; };
+function prettyDate(ymd) { const [y, m, d] = ymd.split('-').map(Number); return `${DAYS_PL[dowOfYmd(ymd)]}, ${d} ${MONTHS_PL[m - 1]} ${y}`; }
+
+function updateStatus() {
+  const now = warsawNow(), today = HOURS[now.dow];
+  const dot = $('#live-dot'), ping = $('#live-ping'), txt = $('#live-text'), badge = $('#hours-badge');
+  const isOpen = today && now.minutes >= today[0] && now.minutes < today[1];
+  const setColor = c => { dot.className = `relative inline-flex rounded-full h-2.5 w-2.5 ${c}`; ping.className = `animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${c}`; };
+  if (isOpen) {
+    setColor('bg-emerald-400');
+    txt.textContent = `Teraz otwarte • Zapraszamy dzisiaj do ${fmt(today[1])} na os. Przyjaźni 132a/2a`;
+    badge.textContent = 'Teraz otwarte'; badge.className = 'text-xs font-bold px-3 py-1 rounded-full bg-emerald-100 text-emerald-700';
+  } else {
+    let when = null;
+    if (today && now.minutes < today[0]) when = 'dzisiaj';
+    else for (let i = 1; i <= 7 && !when; i++) { const d = (now.dow + i) % 7; if (HOURS[d]) when = i === 1 ? 'jutro' : `w ${d === 1 ? 'poniedziałek' : d === 6 ? 'sobotę' : DAYS_PL[d]}`; }
+    setColor('bg-amber-400');
+    txt.textContent = `Teraz zamknięte • Otwieramy ${when} o 10:00 (Zadzwoń i zamów bukiet na jutro!)`;
+    badge.textContent = 'Teraz zamknięte'; badge.className = 'text-xs font-bold px-3 py-1 rounded-full bg-amber-100 text-amber-700';
+  }
+  $$('#hours-table tr').forEach(tr => {
+    const on = parseInt(tr.dataset.dow, 10) === now.dow;
+    tr.className = on ? 'bg-sage text-white font-semibold' : '';
+  });
+}
+updateStatus(); setInterval(updateStatus, 30000);
+
+/* ---------- Reveal on scroll ---------- */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.remove('opacity-0', 'translate-y-8'); e.target.classList.add('opacity-100', 'translate-y-0'); io.unobserve(e.target); } });
+}, { threshold: 0.08 });
+const observeReveal = root => $$('.reveal', root).forEach(el => io.observe(el));
+observeReveal();
+
+/* ---------- Menu mobilne ---------- */
+const menu = $('#mobile-menu'), mbg = $('#menu-backdrop');
+function toggleMenu(open) {
+  menu.classList.toggle('translate-x-full', !open);
+  mbg.classList.toggle('opacity-0', !open); mbg.classList.toggle('pointer-events-none', !open);
+  $('#menu-open').setAttribute('aria-expanded', String(open));
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+$('#menu-open').addEventListener('click', () => toggleMenu(true));
+$('#menu-close').addEventListener('click', () => toggleMenu(false));
+mbg.addEventListener('click', () => toggleMenu(false));
+$$('.m-link').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+window.addEventListener('scroll', () => $('#navbar').classList.toggle('shadow-md', window.scrollY > 20), { passive: true });
+
+/* ---------- Tryb PRZED / PO ---------- */
+const ba = $('#ba-overlay');
+function spawnPetals() {
+  const set = ['🌸', '🌷', '🌺', '🌼', '💮'];
+  for (let i = 0; i < 28; i++) {
+    const p = document.createElement('span');
+    p.className = 'petal'; p.textContent = set[i % set.length];
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.fontSize = (16 + Math.random() * 20) + 'px';
+    p.style.animationDuration = (2.5 + Math.random() * 2.5) + 's';
+    p.style.animationDelay = (Math.random() * 0.8) + 's';
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 6500);
+  }
+}
+function openBA() { ba.classList.remove('hidden', 'reveal-out'); ba.scrollTop = 0; document.body.style.overflow = 'hidden'; }
+function closeBA(animate) {
+  if (!animate) { ba.classList.add('hidden'); document.body.style.overflow = ''; return; }
+  ba.classList.add('reveal-out'); window.scrollTo({ top: 0, behavior: 'smooth' }); spawnPetals();
+  setTimeout(() => { ba.classList.add('hidden'); document.body.style.overflow = ''; }, 1350);
+}
+$('#ba-go').addEventListener('click', () => closeBA(true));
+$('#ba-close').addEventListener('click', () => closeBA(false));
+
+/* ---------- Katalog ---------- */
+const CATS = [
+  { id: 'all', t: 'Wszystkie' }, { id: 'okolicznosciowe', t: 'Bukiety Okolicznościowe' }, { id: 'slubna', t: 'Florystyka Ślubna' },
+  { id: 'flowerboxy', t: 'Flowerboxy & Róże' }, { id: 'rosliny', t: 'Rośliny i Doniczki' }
+];
+const ITEMS = [
+  { cat: 'okolicznosciowe', badge: 'Bestseller', name: 'Pastelowe Piwonie', price: 'od 140 zł', img: 'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=800&q=80', set: { occasion: 'birthday', palette: 'pastel', budget: 140 } },
+  { cat: 'slubna', badge: 'Na zamówienie', name: 'Florystyka Ślubna', price: 'od 250 zł', img: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80', set: { occasion: 'wedding', palette: 'pastel', budget: 250 } },
+  { cat: 'flowerboxy', badge: 'Klasyk', name: 'Klasyczne Róże', price: 'od 120 zł', img: 'https://pixnio.com/free-images/2023/09/12/2023-09-12-07-54-02-576x864.jpg', set: { occasion: 'love', palette: 'royal', budget: 120 } },
+  { cat: 'okolicznosciowe', badge: 'Sezonowe', name: 'Polny Bukiet Boho', price: 'od 100 zł', img: 'https://images.unsplash.com/photo-1487530811176-3780de880c2d?auto=format&fit=crop&w=800&q=80', set: { occasion: 'none', palette: 'boho', budget: 100 } },
+  { cat: 'rosliny', badge: 'Nowość', name: 'Monstera & Rośliny Doniczkowe', price: 'od 70 zł', img: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=800&q=80', set: { occasion: 'thanks', palette: 'boho', budget: 70 } },
+  { cat: 'flowerboxy', badge: 'Premium', name: 'Flowerbox Premium', price: 'od 180 zł', img: 'https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=800&q=80', set: { occasion: 'thanks', palette: 'florist', budget: 180 } }
+];
+function buildGallery() {
+  $('#filters').innerHTML = CATS.map((c, i) => {
+    const n = c.id === 'all' ? ITEMS.length : ITEMS.filter(x => x.cat === c.id).length;
+    return `<button type="button" role="tab" data-f="${c.id}" aria-selected="${i === 0}" class="filter-btn rounded-full border border-sage/25 px-4 py-2 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 ${i === 0 ? 'bg-sage text-white' : 'bg-white text-sage'}">${c.t} (${n})</button>`;
+  }).join('');
+  $('#gallery').innerHTML = ITEMS.map((it, i) => `
+    <div class="gitem reveal opacity-0 translate-y-8 transition-all duration-700" data-cat="${it.cat}" style="transition-delay:${(i % 3) * 100}ms">
+      <article class="gcard group rounded-[2rem] bg-white overflow-hidden border border-black/5 hover:shadow-2xl transition-shadow h-full flex flex-col">
+        <button type="button" class="relative block aspect-[4/5] overflow-hidden" data-lb="${i}" aria-label="Powiększ zdjęcie: ${it.name}">
+          <img src="${it.img}" alt="${it.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[1200ms]">
+          <span class="absolute top-4 left-4 rounded-full bg-rose text-white text-xs font-bold px-3 py-1 shadow">${it.badge}</span>
+        </button>
+        <div class="p-6 flex-1 flex flex-col">
+          <h3 class="font-serif text-2xl font-semibold">${it.name}</h3>
+          <p class="text-muted text-sm mt-1">Cena orientacyjna: <strong class="text-ink">${it.price}</strong></p>
+          <a href="tel:+48665019963" class="mt-5 block text-center w-full rounded-full border-2 border-sage text-sage font-semibold py-3 hover:bg-sage hover:text-white hover:-translate-y-1 transition-all duration-300"><i data-lucide="phone" class="w-4 h-4 inline-block align-[-3px] mr-2 shrink-0"></i>Zapytaj o podobny</a>
+        </div>
+      </article>
+    </div>`).join('');
+  observeReveal($('#gallery'));
+  $$('#filters .filter-btn').forEach(b => b.addEventListener('click', () => applyFilter(b.dataset.f)));
+  $$('[data-lb]').forEach(b => b.addEventListener('click', () => openLB(+b.dataset.lb)));
+}
+function applyFilter(f) {
+  $$('#filters .filter-btn').forEach(b => {
+    const on = b.dataset.f === f; b.setAttribute('aria-selected', String(on));
+    b.classList.toggle('bg-sage', on); b.classList.toggle('text-white', on); b.classList.toggle('bg-white', !on); b.classList.toggle('text-sage', !on);
+  });
+  $$('.gitem').forEach(w => {
+    const card = $('.gcard', w), match = f === 'all' || w.dataset.cat === f;
+    if (match) {
+      w.classList.remove('hidden');
+      requestAnimationFrame(() => requestAnimationFrame(() => card.classList.remove('is-out')));
+    } else {
+      card.classList.add('is-out');
+      setTimeout(() => { if (card.classList.contains('is-out')) w.classList.add('hidden'); }, 350);
+    }
+  });
+}
+$$('[data-filter-jump]').forEach(a => a.addEventListener('click', () => setTimeout(() => applyFilter(a.dataset.filterJump), 50)));
+
+/* Lightbox */
+let lbIndex = 0; const lb = $('#lightbox');
+function showLB() { const it = ITEMS[lbIndex]; $('#lb-img').src = it.img.replace('w=800', 'w=1400'); $('#lb-img').alt = it.name; $('#lb-cap').textContent = `${it.name} • ${it.price}`; }
+function openLB(i) { lbIndex = i; showLB(); lb.classList.remove('hidden'); lb.classList.add('flex'); document.body.style.overflow = 'hidden'; }
+function closeLB() { lb.classList.add('hidden'); lb.classList.remove('flex'); document.body.style.overflow = ''; }
+$('#lb-close').addEventListener('click', closeLB);
+lb.addEventListener('click', e => { if (e.target === lb) closeLB(); });
+$('#lb-prev').addEventListener('click', () => { lbIndex = (lbIndex + ITEMS.length - 1) % ITEMS.length; showLB(); });
+$('#lb-next').addEventListener('click', () => { lbIndex = (lbIndex + 1) % ITEMS.length; showLB(); });
+
+document.addEventListener('keydown', e => {
+  if (!lb.classList.contains('hidden')) {
+    if (e.key === 'Escape') closeLB();
+    if (e.key === 'ArrowLeft') $('#lb-prev').click();
+    if (e.key === 'ArrowRight') $('#lb-next').click();
+  } else if (e.key === 'Escape') {
+    if (!ba.classList.contains('hidden')) closeBA(false);
+    else toggleMenu(false);
+  }
+});
+
+/* ---------- FAQ ---------- */
+const FAQ = [
+  { q: 'Czy można płacić kartą i BLIK-iem?', a: 'Tak! Przyjmujemy płatności kartą, BLIK-iem oraz telefonem (NFC), a także gotówką. Płacisz wygodnie przy odbiorze w kwiaciarni.' },
+  { q: 'Czy robicie wiązanki pogrzebowe z szarfą?', a: 'Oczywiście. Przygotowujemy wiązanki, wieńce i bukiety żałobne ze wstęgą (szarfą) z wybranym napisem. Zadzwoń: 665 019 963 – podpowiemy i dopasujemy formę do ceremonii.' },
+  { q: 'Z jakim wyprzedzeniem zamawiać bukiet ślubny?', a: 'Najlepiej 3–4 tygodnie przed ślubem, a w sezonie (maj–wrzesień) nawet 6–8 tygodni. Umówimy się na krótką konsultację, na której dobierzemy kolory, kwiaty sezonowe oraz butonierki i dekoracje. Mniejsze zamówienia ogarniamy też w krótszym terminie – po prostu zadzwoń.' },
+  { q: 'Jak przedłużyć trwałość bukietu?', a: 'Przytnij łodygi ukośnie o 2 cm, usuń liście sięgające wody, wlej chłodną wodę z odżywką (dostajesz ją gratis) i zmieniaj ją co 2 dni. Trzymaj bukiet z dala od słońca, grzejnika i owoców. ' }
+];
+$('#faq-list').innerHTML = FAQ.map((f, i) => `
+  <div>
+    <button type="button" class="faq-btn w-full flex items-center justify-between gap-4 py-5 text-left" aria-expanded="false" aria-controls="faq-${i}">
+      <span class="font-serif text-xl lg:text-2xl font-semibold">${f.q}</span>
+      <span class="faq-icon shrink-0 w-9 h-9 rounded-full border border-black/15 flex items-center justify-center text-xl transition-transform duration-300">+</span>
+    </button>
+    <div id="faq-${i}" class="faq-body"><p class="pb-5 text-muted leading-relaxed">${f.a}</p></div>
+  </div>`).join('');
+$$('.faq-btn').forEach(btn => btn.addEventListener('click', () => {
+  const body = $('#' + btn.getAttribute('aria-controls')), open = btn.getAttribute('aria-expanded') === 'true';
+  $$('.faq-btn').forEach(b => { b.setAttribute('aria-expanded', 'false'); $('#' + b.getAttribute('aria-controls')).style.maxHeight = '0px'; $('.faq-icon', b).style.transform = ''; });
+  if (!open) { btn.setAttribute('aria-expanded', 'true'); body.style.maxHeight = body.scrollHeight + 'px'; $('.faq-icon', btn).style.transform = 'rotate(45deg)'; }
+}));
+
+/* ---------- Opinie ---------- */
+const REVIEWS = [
+  { n: 'Katarzyna M.', c: '#D48373', t: 'Najpiękniejsza kwiaciarnia na całym Osiedlu Przyjaźni! Już od progu uderza obłędny zapach świeżych kwiatów. Pani właścicielka ma niesamowity gust – bukiet urodzinowy dla mamy wyglądał jak milion dolarów i stał w wazonie prawie dwa tygodnie.' },
+  { n: 'Marek W.', c: '#4F7A63', t: 'Moje stałe miejsce ratunkowe przed każdą rocznicą :) Zawsze przemiła obsługa, świetne ceny i doradztwo bez naciągania. Duży plus za możliwość płatności kartą i łatwe parkowanie pod samym wejściem.' },
+  { n: 'Anna i Piotr', c: '#C5A059', t: 'Zamawialiśmy tutaj bukiet ślubny oraz butonierki. Efekt przerósł nasze oczekiwania! Kwiaty przetrwały całe wesele w upalny dzień w nienaruszonym stanie. Polecamy z całego serca!' }
+];
+$('#reviews').innerHTML = REVIEWS.map((r, i) => `
+  <article class="reveal opacity-0 translate-y-8 transition-all duration-700 rounded-3xl bg-white text-ink p-7 shadow-xl hover:-translate-y-2" style="transition-delay:${i * 120}ms">
+    <div class="flex items-center gap-3">
+      <span class="w-12 h-12 rounded-full text-white font-bold flex items-center justify-center text-lg" style="background:${r.c}">${r.n[0]}</span>
+      <div>
+        <p class="font-semibold leading-tight">${r.n}</p>
+        <p class="text-xs text-[#1a73e8] font-medium">Lokalny przewodnik Google</p>
+      </div>
+      <span class="ml-auto text-xl font-bold" style="color:#4285F4">G</span>
+    </div>
+    <div class="mt-4 flex items-center gap-2 text-sm"><span class="text-[#fbbc04] tracking-widest">★★★★★</span><span class="text-muted text-xs">Zweryfikowana opinia</span></div>
+    <p class="mt-3 text-[15px] leading-relaxed text-ink/85">${r.t}</p>
+  </article>`).join('');
+observeReveal($('#reviews'));
+
+/* ---------- Start ---------- */
+buildGallery(); icons();
+setTimeout(icons, 600);
+window.addEventListener('load', icons);
+})();
+</script>
+</body>
+</html>
